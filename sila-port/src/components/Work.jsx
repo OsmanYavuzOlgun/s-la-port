@@ -1,10 +1,12 @@
 import { useRef } from 'react'
 import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
-import { portfolioUrl, projects } from '../data/portfolio.js'
+import { getPortfolioPageUrl, portfolioUrl, projects } from '../data/portfolio.js'
+import { useLanguage } from '../i18n/useLanguage.js'
 
 function Work() {
   const trackRef = useRef(null)
+  const { t } = useLanguage()
 
   const scrollTrack = (direction) => {
     const track = trackRef.current
@@ -17,43 +19,60 @@ function Work() {
     <section className="section work" id="work" aria-labelledby="work-title">
       <SectionHeading
         id="work-title"
-        kicker="Selected Work"
-        title="Selected Work"
-        label="Portfolio"
+        title={t('sections.work.title')}
+        label={t('sections.work.label')}
         actions={
           <a className="text-link" href={portfolioUrl} target="_blank" rel="noopener noreferrer">
-            View Portfolio
+            {t('actions.viewPortfolio')}
             <ExternalLink size={15} aria-hidden="true" />
           </a>
         }
       >
-        A focused overview of Emine&apos;s portfolio categories, from social media visuals to identity, editorial and product work.
+        {t('sections.work.description')}
       </SectionHeading>
 
-      <div className="work__controls" aria-label="Selected work carousel controls">
-        <button className="icon-button" type="button" aria-label="Previous work cards" onClick={() => scrollTrack(-1)}>
+      <div className="work__controls" aria-label={t('sections.work.controls')}>
+        <button className="icon-button" type="button" aria-label={t('sections.work.previous')} onClick={() => scrollTrack(-1)}>
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <button className="icon-button" type="button" aria-label="Next work cards" onClick={() => scrollTrack(1)}>
+        <button className="icon-button" type="button" aria-label={t('sections.work.next')} onClick={() => scrollTrack(1)}>
           <ArrowRight size={18} aria-hidden="true" />
         </button>
       </div>
 
-      <div className="project-track" ref={trackRef} tabIndex="0" aria-label="Selected work categories">
+      <div className="project-track" ref={trackRef} tabIndex="0" aria-label={t('sections.work.categories')}>
         {projects.map((project, index) => (
-          <article className="project-card" key={project.title}>
+          <article className="project-card" key={project.id}>
             <div
               className={`project-card__art project-card__art--${project.tone}`}
               role="img"
-              aria-label={`${project.title} visual artwork preview`}
+              aria-label={`${t(project.titleKey)} ${t('accessibility.projectArtwork')}`}
             >
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{project.title}</strong>
+              <strong>{t(project.titleKey)}</strong>
             </div>
             <div className="project-card__body">
-              <p>{project.category}</p>
-              <h3>{project.title}</h3>
-              <span>{project.description}</span>
+              <p>{t(project.categoryKey)}</p>
+              <h3>
+                <a
+                  className="project-card__title-link"
+                  href={getPortfolioPageUrl(project.portfolioPage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t(project.titleKey)}
+                </a>
+              </h3>
+              <span>{t(project.descriptionKey)}</span>
+              <a
+                className="project-card__view-link"
+                href={getPortfolioPageUrl(project.portfolioPage)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t('actions.view')}
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </a>
             </div>
           </article>
         ))}

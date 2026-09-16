@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
+import { useLanguage } from '../i18n/useLanguage.js'
 
 function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,7 +21,7 @@ function BackToTop() {
     <button
       className={isVisible ? 'back-to-top back-to-top--visible' : 'back-to-top'}
       type="button"
-      aria-label="Back to top"
+      aria-label={t('accessibility.backToTop')}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
       <ArrowUp size={18} aria-hidden="true" />

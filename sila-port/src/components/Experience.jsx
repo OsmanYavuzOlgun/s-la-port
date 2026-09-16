@@ -2,24 +2,25 @@ import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import { experience } from '../data/portfolio.js'
+import { useLanguage } from '../i18n/useLanguage.js'
 
 function Experience() {
   const [selected, setSelected] = useState(0)
   const activeExperience = experience[selected]
+  const { t } = useLanguage()
 
   return (
     <section className="section experience" id="experience" aria-labelledby="experience-title">
       <SectionHeading
         id="experience-title"
-        kicker="Experience"
-        title="Experience"
-        label="Selected Roles"
+        title={t('sections.experience.title')}
+        label={t('sections.experience.label')}
       >
-        Recent roles combining graphic design, social content, campaign visuals and production-ready materials.
+        {t('sections.experience.description')}
       </SectionHeading>
 
       <div className="experience__layout">
-        <div className="experience__tabs" role="tablist" aria-label="Experience list">
+        <div className="experience__tabs" role="tablist" aria-label={t('sections.experience.listLabel')}>
           {experience.map((item, index) => (
             <button
               className={selected === index ? 'experience-tab experience-tab--active' : 'experience-tab'}
@@ -45,15 +46,15 @@ function Experience() {
         >
           <div>
             <p>{activeExperience.dates}</p>
-            <h3>{activeExperience.role}</h3>
+            <h3>{t(activeExperience.roleKey)}</h3>
             <span>{activeExperience.company}</span>
           </div>
-          <p className="experience-card__summary">{activeExperience.summary}</p>
+          <p className="experience-card__summary">{t(activeExperience.summaryKey)}</p>
           <ul>
-            {activeExperience.points.map((point) => (
-              <li key={point}>
+            {activeExperience.pointKeys.map((pointKey) => (
+              <li key={pointKey}>
                 <ArrowUpRight size={16} aria-hidden="true" />
-                {point}
+                {t(pointKey)}
               </li>
             ))}
           </ul>

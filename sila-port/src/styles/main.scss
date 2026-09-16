@@ -92,6 +92,12 @@ main {
   text-transform: none;
 }
 
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.2vw, 24px);
+}
+
 .site-nav {
   display: flex;
   align-items: center;
@@ -121,6 +127,47 @@ main {
 
 .site-nav a:hover::after,
 .site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+}
+
+.language-switcher__button {
+  position: relative;
+  padding: 6px 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.language-switcher__button::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  height: 1px;
+  transform: scaleX(0);
+  background: var(--accent);
+  transition: transform 160ms ease;
+}
+
+.language-switcher__button--active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.language-switcher__button--active::after,
+.language-switcher__button:hover::after,
+.language-switcher__button:focus-visible::after {
   transform: scaleX(1);
 }
 
@@ -633,7 +680,17 @@ main {
   line-height: 1.55;
 }
 
-.project-card__body a {
+.project-card__title-link {
+  color: inherit;
+  transition: color 160ms ease;
+}
+
+.project-card__title-link:hover,
+.project-card__title-link:focus-visible {
+  color: var(--accent);
+}
+
+.project-card__view-link {
   width: fit-content;
   display: inline-flex;
   align-items: center;
@@ -642,6 +699,12 @@ main {
   color: var(--text);
   font-size: 0.72rem;
   font-weight: 500;
+  transition: color 160ms ease;
+}
+
+.project-card__view-link:hover,
+.project-card__view-link:focus-visible {
+  color: var(--accent);
 }
 
 .expertise__grid {
@@ -785,6 +848,10 @@ main {
     min-height: 60px;
   }
 
+  .site-header__actions {
+    gap: 12px;
+  }
+
   .brand__text {
     max-width: 180px;
   }
@@ -825,6 +892,10 @@ main {
     padding: 10px;
   }
 
+  .language-switcher {
+    font-size: 0.7rem;
+  }
+
   .hero {
     min-height: auto;
     padding-top: 62px;
@@ -855,7 +926,7 @@ main {
 
 @media (max-width: 420px) {
   .brand__text {
-    max-width: 150px;
+    max-width: 132px;
   }
 
   .hero h1 {
